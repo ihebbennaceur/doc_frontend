@@ -11,7 +11,7 @@ import { useAuth } from '@/shared/context/AuthContext';
 export default function LoginPage() {
   const router = useRouter();
   const { t } = useLanguage();
-  const { login } = useAuth();
+  const { login: _login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginPage() {
     setLoading(true);
     
     try {
-      await login(email, password);
+      await _login(email, password);
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.message || t('auth.error'));

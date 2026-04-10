@@ -53,6 +53,7 @@ export interface Document extends ExtractionResult {
   document_type_confidence?: number;
   document_type_match?: boolean;
   fields_complete_percentage?: number;
+  missing_fields?: string[];
   expiry_date?: string;
   is_expired: boolean;
   uploaded_at?: string;
@@ -99,6 +100,7 @@ export const DocumentsManager: React.FC<DocumentsManagerProps> = ({
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [draggedOver, setDraggedOver] = useState<string | null>(null);
   const [, setSelectedDoc] = useState<Document | null>(null);
+  const [_isModalOpen, setIsModalOpen] = useState(false);
 
   const isAgent = userRole === 'agent';
 

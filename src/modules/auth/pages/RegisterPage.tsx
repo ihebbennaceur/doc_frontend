@@ -11,7 +11,7 @@ import { useAuth } from '@/shared/context/AuthContext';
 export default function RegisterPage() {
   const router = useRouter();
   const { t } = useLanguage();
-  const { login } = useAuth();
+  const { login: _login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',

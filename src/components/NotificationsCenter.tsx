@@ -22,18 +22,6 @@ export const NotificationsCenter: React.FC = () => {
     }
   };
 
-  const getNotificationColor = (type: string) => {
-    switch (type) {
-      case 'document_verified':
-        return { bg: '#E8F5E9', text: '#2E7D32', border: '#81C784' };
-      case 'document_rejected':
-        return { bg: '#FFEBEE', text: '#B71C1C', border: '#EF5350' };
-      case 'document_status_changed':
-      default:
-        return { bg: '#E3F2FD', text: '#1565C0', border: '#64B5F6' };
-    }
-  };
-
   return (
     <div style={{ position: 'relative' }}>
       {/* Notification Bell Button */}
@@ -145,7 +133,6 @@ export const NotificationsCenter: React.FC = () => {
               </div>
             ) : (
               notifications.map((notif) => {
-                const colors = getNotificationColor(notif.type);
                 return (
                   <div
                     key={notif.id}

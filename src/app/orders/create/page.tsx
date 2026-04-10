@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
@@ -50,7 +50,7 @@ const SERVICE_TIERS: ServiceTier[] = [
   },
 ];
 
-export default function CreateOrderPage() {
+function CreateOrderContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useLanguage();
@@ -296,5 +296,13 @@ export default function CreateOrderPage() {
         </div>
       </div>
     </ProtectedRoute>
+  );
+}
+
+export default function CreateOrderPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreateOrderContent />
+    </Suspense>
   );
 }

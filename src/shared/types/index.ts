@@ -34,6 +34,7 @@ export interface Document {
   isExpired: boolean;
   daysToExpiry?: number;
   verificationStatus: boolean;
+  missing_fields?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
