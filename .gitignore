@@ -1,0 +1,28 @@
+# Ignore dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env.local
+.env.*.local
+
+# Build
+dist/
+*.tsbuildinfo
