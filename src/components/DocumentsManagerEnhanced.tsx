@@ -99,7 +99,6 @@ export const DocumentsManager: React.FC<DocumentsManagerProps> = ({
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [draggedOver, setDraggedOver] = useState<string | null>(null);
   const [, setSelectedDoc] = useState<Document | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isAgent = userRole === 'agent';
 
