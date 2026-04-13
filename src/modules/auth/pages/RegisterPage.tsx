@@ -148,6 +148,32 @@ export default function RegisterPage() {
         )}
 
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
+          {/* Google Login Button */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: SPACING.lg }}>
+            <div style={{
+              transform: 'scale(0.95)',
+              transformOrigin: 'top center',
+            }}>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap={false}
+              />
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: SPACING.md,
+            margin: `${SPACING.md} 0`,
+          }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+            <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>{t('auth.ou') || 'ou'}</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+          </div>
+
           <div>
             <label style={{
               display: 'block',
@@ -175,30 +201,6 @@ export default function RegisterPage() {
                 fontFamily: 'inherit',
               }}
             />
-          </div>
-
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: SPACING.md,
-            margin: `${SPACING.md} 0`,
-          }}>
-            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
-            <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
-            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <div style={{
-              transform: 'scale(0.95)',
-              transformOrigin: 'top center',
-            }}>
-              <GoogleLogin
-                onSuccess={handleGoogleSuccess}
-                onError={handleGoogleError}
-                useOneTap={false}
-              />
-            </div>
           </div>
 
           <div style={{
