@@ -11,6 +11,11 @@ coverage/
 out/
 build/
 
+# Environment
+.env.local
+.env.production
+.env.development
+
 # IDE
 .vscode/
 .idea/
