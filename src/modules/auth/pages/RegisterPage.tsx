@@ -7,6 +7,7 @@ import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useAuth } from '@/shared/context/AuthContext';
+import { buildApiUrl } from '@/lib/api-url';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/register/', {
+      const res = await fetch(buildApiUrl('/register/'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

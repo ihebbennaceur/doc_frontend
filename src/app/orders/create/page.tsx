@@ -9,6 +9,7 @@ import { useAuth } from '@/shared/context/AuthContext';
 import { useFetch } from '@/shared/hooks/useFetch';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { buildApiUrl } from '@/lib/api-url';
 
 interface ServiceTier {
   id: string;
@@ -78,7 +79,7 @@ function CreateOrderContent() {
     setError('');
 
     try {
-      const response = await fetchWithAuth('http://localhost:8000/api/orders/', {
+      const response = await fetchWithAuth(buildApiUrl('/orders/'), {
         method: 'POST',
         body: JSON.stringify({
           service_tier: selectedTier,

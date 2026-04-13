@@ -6,6 +6,7 @@ import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useFetch } from '@/shared/hooks/useFetch';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { buildApiUrl } from '@/lib/api-url';
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -32,7 +33,7 @@ export default function OnboardingPage() {
     setError('');
 
     try {
-      const response = await fetchWithAuth(`http://localhost:8000/api/orders/${orderId}/`, {
+      const response = await fetchWithAuth(buildApiUrl(`/orders/${orderId}/`), {
         method: 'PATCH',
         body: JSON.stringify({
           phone: formData.phone,

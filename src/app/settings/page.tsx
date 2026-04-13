@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
+import { buildApiUrl } from '@/lib/api-url';
 
 export default function SettingsPage() {
   const [emailNotifications, setEmailNotifications] = useState(true);
@@ -14,7 +15,7 @@ export default function SettingsPage() {
     setSaving(true);
     try {
       const token = localStorage.getItem('access_token');
-      await fetch('http://localhost:8000/api/user/settings', {
+      await fetch(buildApiUrl('/user/settings'), {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,

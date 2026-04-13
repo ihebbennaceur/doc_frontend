@@ -6,6 +6,7 @@ import { formatCurrency, formatDate } from '@/shared/utils/helpers';
 import { BRAND_COLORS } from '@/shared/theme/colors';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useFetch } from '@/shared/hooks/useFetch';
+import { buildApiUrl } from '@/lib/api-url';
 
 interface Order {
   id: string;
@@ -41,7 +42,7 @@ export default function OrdersPage() {
 
         console.log('[Orders] User:', userEmail);
 
-        const res = await fetchWithAuth(`http://localhost:8000/api/orders/seller/list/?email=${encodeURIComponent(userEmail)}`, {
+        const res = await fetchWithAuth(buildApiUrl(`/orders/seller/list/?email=${encodeURIComponent(userEmail)}`), {
           method: 'GET',
         });
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
+import { buildApiUrl } from '@/lib/api-url';
 
 interface Order {
   id: string;
@@ -26,7 +27,7 @@ export default function OperatorDashboard() {
     const fetchOrders = async () => {
       try {
         const token = localStorage.getItem('access_token');
-        const res = await fetch('http://localhost:8000/api/operator/queue', {
+        const res = await fetch(buildApiUrl('/operator/queue'), {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         if (res.ok) {

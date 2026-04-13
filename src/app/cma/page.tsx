@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { buildApiUrl } from '@/lib/api-url';
 
 export default function CMAPage() {
   const { t } = useLanguage();
@@ -20,7 +21,7 @@ export default function CMAPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem('access_token');
-      const res = await fetch('http://localhost:8000/api/cma/generate', {
+      const res = await fetch(buildApiUrl('/cma/generate'), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -271,7 +272,7 @@ export default function CMAPage() {
                   <button
                     onClick={() => {
                       const link = document.createElement('a');
-                      link.href = `http://localhost:8000/api/cma/${report.id}/export`;
+                      link.href = buildApiUrl(`/cma/${report.id}/export`);
                       link.download = `CMA_Report_${report.id}.pdf`;
                       link.click();
                     }}

@@ -8,6 +8,7 @@ import { useLanguage } from '@/shared/context/LanguageContext';
 import { useFetch } from '@/shared/hooks/useFetch';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { buildApiUrl } from '@/lib/api-url';
 
 interface OrderDetail {
   id: string;
@@ -39,7 +40,7 @@ export default function OrderDetailPage() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await fetchWithAuth(`http://localhost:8000/api/orders/${orderId}/`, {
+        const response = await fetchWithAuth(buildApiUrl(`/orders/${orderId}/`), {
           method: 'GET',
         });
 

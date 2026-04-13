@@ -6,6 +6,7 @@ import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useAuthReady } from '@/shared/hooks/useAuthReady';
 import { useFetch } from '@/shared/hooks/useFetch';
+import { buildApiUrl } from '@/lib/api-url';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
 
@@ -29,7 +30,7 @@ export default function ProfilePage() {
           return;
         }
 
-        const res = await fetchWithAuth('http://localhost:8000/api/user/profile/', {
+        const res = await fetchWithAuth(buildApiUrl('/user/profile/'), {
           method: 'GET',
         });
         
@@ -61,7 +62,7 @@ export default function ProfilePage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetchWithAuth('http://localhost:8000/api/user/profile/', {
+      const res = await fetchWithAuth(buildApiUrl('/user/profile/'), {
         method: 'PATCH',
         body: JSON.stringify(formData),
       });

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { buildApiUrl } from '@/lib/api-url';
 
 export default function DocumentsPage() {
   const { t } = useLanguage();
@@ -16,8 +17,8 @@ export default function DocumentsPage() {
     const fetchDocuments = async () => {
       try {
         const token = localStorage.getItem('access_token');
-        const res = await fetch('http://localhost:8000/api/documents', {
-          headers: { 'Authorization': `Bearer ${token}` },
+        const res = await fetch(buildApiUrl('/documents'), {
+          headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
           const data = await res.json();
@@ -48,7 +49,7 @@ export default function DocumentsPage() {
     setUploading(true);
     try {
       const token = localStorage.getItem('access_token');
-      const res = await fetch('http://localhost:8000/api/documents/upload/', {
+      const res = await fetch(buildApiUrl('/documents/upload/'), {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${token}` },
         body: formData,
@@ -78,7 +79,7 @@ export default function DocumentsPage() {
 
     try {
       const token = localStorage.getItem('access_token');
-      const res = await fetch(`http://localhost:8000/api/documents/${docId}/`, {
+      const res = await fetch(buildApiUrl(`/documents/${docId}/`), {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` },
       });
