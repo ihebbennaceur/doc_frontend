@@ -17,7 +17,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,7 +36,6 @@ export default function LoginPage() {
 
   const handleGoogleSuccess = async (response: any) => {
     setError('');
-    setGoogleLoading(true);
     
     try {
       const result = await exchangeGoogleToken(response.credential);
@@ -50,8 +48,6 @@ export default function LoginPage() {
     } catch (err) {
       setError(t('auth.error'));
       console.error('Google login error:', err);
-    } finally {
-      setGoogleLoading(false);
     }
   };
 

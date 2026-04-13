@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Script from 'next/script';
 import { GoogleLogin } from '@react-oauth/google';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -23,7 +22,6 @@ export default function RegisterPage() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,7 +31,6 @@ export default function RegisterPage() {
 
   const handleGoogleSuccess = async (response: any) => {
     setError('');
-    setGoogleLoading(true);
     
     try {
       const result = await exchangeGoogleToken(response.credential);
@@ -46,8 +43,6 @@ export default function RegisterPage() {
     } catch (err) {
       setError(t('auth.error'));
       console.error('Google login error:', err);
-    } finally {
-      setGoogleLoading(false);
     }
   };
 
@@ -215,11 +210,6 @@ export default function RegisterPage() {
             <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
             <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
-          </div>
-                boxSizing: 'border-box',
-                fontFamily: 'inherit',
-              }}
-            />
           </div>
 
           <div>
