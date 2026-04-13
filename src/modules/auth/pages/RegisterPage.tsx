@@ -1,13 +1,16 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Script from 'next/script';
+import { GoogleLogin } from '@react-oauth/google';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useAuth } from '@/shared/context/AuthContext';
 import { buildApiUrl } from '@/lib/api-url';
+import { exchangeGoogleToken } from '@/lib/google-auth';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -20,11 +23,36 @@ export default function RegisterPage() {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     setError('');
+  };
+
+  const handleGoogleSuccess = async (response: any) => {
+    setError('');
+    setGoogleLoading(true);
+    
+    try {
+      const result = await exchangeGoogleToken(response.credential);
+      
+      if (result.success) {
+        router.push('/dashboard');
+      } else {
+        setError(result.error || t('auth.error'));
+      }
+    } catch (err) {
+      setError(t('auth.error'));
+      console.error('Google login error:', err);
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError('Google authentication failed. Please try again.');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -148,6 +176,46 @@ export default function RegisterPage() {
                 borderRadius: BORDER_RADIUS.sm,
                 border: `1px solid ${BRAND_COLORS.lightGray}`,
                 fontSize: FONT_SIZES.base,
+                boxSizing: 'border-box',
+                fontFamily: 'inherit',
+              }}
+            />
+          </div>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: SPACING.md,
+            margin: `${SPACING.md} 0`,
+          }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+            <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{
+              transform: 'scale(0.95)',
+              transformOrigin: 'top center',
+            }}>
+              <GoogleLogin
+                onSuccess={handleGoogleSuccess}
+                onError={handleGoogleError}
+                useOneTap={false}
+              />
+            </div>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: SPACING.md,
+            margin: `${SPACING.md} 0`,
+          }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+            <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+          </div>
                 boxSizing: 'border-box',
                 fontFamily: 'inherit',
               }}

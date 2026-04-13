@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { GoogleLogin } from '@react-oauth/google';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/shared/context/LanguageContext';
 import { useAuth } from '@/shared/context/AuthContext';
+import { exchangeGoogleToken } from '@/lib/google-auth';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -15,6 +17,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,6 +33,30 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (response: any) => {
+    setError('');
+    setGoogleLoading(true);
+    
+    try {
+      const result = await exchangeGoogleToken(response.credential);
+      
+      if (result.success) {
+        router.push('/dashboard');
+      } else {
+        setError(result.error || t('auth.error'));
+      }
+    } catch (err) {
+      setError(t('auth.error'));
+      console.error('Google login error:', err);
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError('Google authentication failed. Please try again.');
   };
 
   return (
@@ -155,6 +182,30 @@ export default function LoginPage() {
             {loading ? t('auth.entering') : t('auth.entrar')}
           </button>
         </form>
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: SPACING.md,
+          margin: `${SPACING.lg} 0`,
+        }}>
+          <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+          <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
+          <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{
+            transform: 'scale(0.95)',
+            transformOrigin: 'top center',
+          }}>
+            <GoogleLogin
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
+              useOneTap={false}
+            />
+          </div>
+        </div>
 
         <div style={{ marginTop: SPACING.lg, textAlign: 'center' }}>
           <p style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>
