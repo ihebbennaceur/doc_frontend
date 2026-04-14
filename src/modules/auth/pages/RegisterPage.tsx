@@ -19,6 +19,8 @@ export default function RegisterPage() {
     email: '',
     password: '',
     confirmPassword: '',
+    firstName: '',
+    lastName: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -76,6 +78,8 @@ export default function RegisterPage() {
           email: formData.email,
           password: formData.password,
           confirm_password: formData.confirmPassword,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
         }),
       });
 
@@ -212,6 +216,64 @@ export default function RegisterPage() {
             <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
             <span style={{ color: BRAND_COLORS.mediumGray, fontSize: FONT_SIZES.sm }}>ou</span>
             <div style={{ flex: 1, height: '1px', backgroundColor: BRAND_COLORS.lightGray }}></div>
+          </div>
+
+          {/* First Name and Last Name Row */}
+          <div style={{ display: 'flex', gap: SPACING.md }}>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: 'block',
+                fontSize: FONT_SIZES.sm,
+                fontWeight: 600,
+                color: BRAND_COLORS.textDark,
+                marginBottom: SPACING.xs,
+              }}>
+                Prénom
+              </label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="Votre prénom"
+                style={{
+                  width: '100%',
+                  padding: `${SPACING.md} ${SPACING.md}`,
+                  borderRadius: BORDER_RADIUS.sm,
+                  border: `1px solid ${BRAND_COLORS.lightGray}`,
+                  fontSize: FONT_SIZES.base,
+                  boxSizing: 'border-box',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={{
+                display: 'block',
+                fontSize: FONT_SIZES.sm,
+                fontWeight: 600,
+                color: BRAND_COLORS.textDark,
+                marginBottom: SPACING.xs,
+              }}>
+                Nom
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Votre nom"
+                style={{
+                  width: '100%',
+                  padding: `${SPACING.md} ${SPACING.md}`,
+                  borderRadius: BORDER_RADIUS.sm,
+                  border: `1px solid ${BRAND_COLORS.lightGray}`,
+                  fontSize: FONT_SIZES.base,
+                  boxSizing: 'border-box',
+                  fontFamily: 'inherit',
+                }}
+              />
+            </div>
           </div>
 
           <div>
