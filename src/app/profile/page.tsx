@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import { useLanguage } from '@/shared/context/LanguageContext';
@@ -12,6 +13,7 @@ import { ProtectedRoute } from '@/components/ProtectedRoute';
 
 export default function ProfilePage() {
   const { t } = useLanguage();
+  const router = useRouter();
   const { isReady } = useAuthReady();
   const { fetchWithAuth } = useFetch();
   const [profile, setProfile] = useState<any>(null);
@@ -19,6 +21,14 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({ first_name: '', last_name: '', email: '', phone: '' });
+
+  const handleLogout = () => {
+    // Clear localStorage
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    // Redirect to login
+    router.push('/auth/login');
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -315,6 +325,28 @@ export default function ProfilePage() {
               </div>
             </div>
           )}
+
+          {/* Logout Button */}
+          <div style={{ marginTop: SPACING.xl, display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              onClick={handleLogout}
+              style={{
+                padding: `${SPACING.md} ${SPACING.lg}`,
+                borderRadius: BORDER_RADIUS.md,
+                backgroundColor: '#dc2626',
+                color: 'white',
+                fontWeight: 600,
+                fontSize: FONT_SIZES.base,
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s',
+              }}
+              onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#b91c1c')}
+              onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#dc2626')}
+            >
+              Logout
+            </button>
+          </div>
         </main>
       </div>
     </div>
