@@ -30,7 +30,7 @@ export default function ProfilePage() {
           return;
         }
 
-        const res = await fetchWithAuth(buildApiUrl('/user/profile/'), {
+        const res = await fetchWithAuth(buildApiUrl('/accounts/me/'), {
           method: 'GET',
         });
         
@@ -62,7 +62,7 @@ export default function ProfilePage() {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetchWithAuth(buildApiUrl('/user/profile/'), {
+      const res = await fetchWithAuth(buildApiUrl('/accounts/me/'), {
         method: 'PATCH',
         body: JSON.stringify(formData),
       });
