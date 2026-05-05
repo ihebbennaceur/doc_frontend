@@ -81,9 +81,14 @@ export default function ProfilePage() {
         setProfile(data);
         setEditing(false);
         alert('Profile updated successfully');
+      } else {
+        const errorData = await res.json();
+        console.error('Save error:', errorData);
+        alert(`Failed to update profile: ${JSON.stringify(errorData)}`);
       }
     } catch (err) {
-      alert('Failed to update profile');
+      console.error('Failed to update profile:', err);
+      alert('Failed to update profile: ' + String(err));
     } finally {
       setSaving(false);
     }
