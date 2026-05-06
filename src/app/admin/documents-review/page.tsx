@@ -1,10 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
-import { useLanguage } from '@/shared/context/LanguageContext';
 import { useAuthReady } from '@/shared/hooks/useAuthReady';
 import { useFetch } from '@/shared/hooks/useFetch';
 import { buildApiUrl } from '@/lib/api-url';
@@ -23,8 +21,6 @@ interface SubmissionForReview {
 }
 
 export default function AdminDocumentsReviewPage() {
-  const { t } = useLanguage();
-  const router = useRouter();
   const { isReady } = useAuthReady();
   const { fetchWithAuth } = useFetch();
 
