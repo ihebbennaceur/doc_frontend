@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { BRAND_COLORS, SPACING, BORDER_RADIUS, FONT_SIZES } from '@/shared/theme/colors';
 import { useAuthReady } from '@/shared/hooks/useAuthReady';
@@ -9,15 +8,6 @@ import { useFetch } from '@/shared/hooks/useFetch';
 import { buildApiUrl } from '@/lib/api-url';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
-
-interface Template {
-  id: number;
-  name: string;
-  description: string;
-  category: string;
-  required: boolean;
-  required_fields: string[];
-}
 
 interface Submission {
   id: number;
@@ -35,29 +25,19 @@ interface Submission {
 }
 
 export default function SellingDocumentsPage() {
-  const router = useRouter();
   const { isReady } = useAuthReady();
   const { fetchWithAuth } = useFetch();
 
-  const [templates, setTemplates] = useState<Template[]>([]);
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState<{ [key: number]: boolean }>({});
   const [summary, setSummary] = useState<any>(null);
-  const [selectedSubmission, setSelectedSubmission] = useState<Submission | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!isReady) return;
 
       try {
-        // Fetch templates
-        const templatesRes = await fetchWithAuth(buildApiUrl('/property-documents/templates/'));
-        if (templatesRes.ok) {
-          const data = await templatesRes.json();
-          setTemplates(data);
-        }
-
         // Fetch submissions dashboard
         const dashboardRes = await fetchWithAuth(buildApiUrl('/property-documents/dashboard/'), {
           method: 'POST',
